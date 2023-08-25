@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  flask_app:
+    container_name: flask_app
+    restart: always
+    build: ./app
+    ports:
+      - "8989:8989"
+    command: ["gunicorn"  , "--bind", "0.0.0.0:8989", "server:flaskApplication"]
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - flask_app
